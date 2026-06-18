@@ -8,9 +8,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-const user = null;
+import { useSelector } from 'react-redux';
 const Navbar = () => {
+  const  {user}=useSelector(store=>store.auth);
+
   return (
+    
     <div className='bg-white'> 
         <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
         <div>
@@ -55,7 +58,7 @@ const Navbar = () => {
 </div>
 <div>
   <User2/>
-  <Button className="focus-visible:ring-0 focus-visible:ring-offset-0" variant='link'>View Profie</Button>
+  <Button className="focus-visible:ring-0 focus-visible:ring-offset-0" variant='link'><Link to='/profile'>View Profie</Link></Button>
 </div>
 <div>
   <LogOut/>

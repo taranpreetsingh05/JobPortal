@@ -13,7 +13,7 @@ import { Loader2 } from 'lucide-react';
 import axios from "axios";
 const Signup = () => {
   const [input, setInput] = useState({
-    fullname: "",
+    fullName: "",
     email: "",
     phoneNumber: "",
     password: "",
@@ -53,9 +53,15 @@ const Signup = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+    
+  console.log("FULL ERROR:", error);
+  console.log("RESPONSE:", error.response);
+  console.log("DATA:", error.response?.data);
 
-    }
+  toast.error(error.response?.data?.message);
+}
+
+    
     finally{
             dispatch(setLoading(false));
 
