@@ -4,7 +4,10 @@ import { Bookmark } from 'lucide-react'
 import { Avatar } from './ui/avatar'
 import { AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
+import { useNavigate } from 'react-router-dom'
 function Job() {
+  const navigate=useNavigate();
+  const jobId="78984u99";
   return (
     <div className='border rounded-md border-gray-200 shadow-xl bg-white p-5 '>
         <div className='flex justify-between items-center'>
@@ -40,7 +43,7 @@ function Job() {
         </Badge>
       </div>
       <div className='flex items-center gap-4 mt-4'>
-        <Button variant="outline">Details</Button>
+        <Button onClick={()=>navigate(`/description/${jobId}`)} variant="outline">Details</Button>
         <Button className="bg-[#7209b7]">Save for Later</Button>
       </div>
     </div>
