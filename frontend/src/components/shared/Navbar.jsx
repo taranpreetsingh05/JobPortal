@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button"
 import { User2, LogOut } from "lucide-react";
@@ -8,10 +9,30 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { USER_API_END_POINT } from '../../utils/constant';
+import axios from 'axios';
+import { setUser } from "@/redux/authSlice";
 const Navbar = () => {
-  const  {user}=useSelector(store=>store.auth);
+  const { user } = useSelector(store => store.auth);
+const dispatch = useDispatch();
+const navigate = useNavigate();
+ const logOutHandler=async()=>{
+  try {
+    const res=await axios.get(`${USER_API_END_POINT}/logout`,{withCredentials:true});
+    if(res.data.success){
+      dispatch(setUser(null));
+      navigate("/");
+      toast.success(res.data.msg);
+    }
+  } catch (error) {
+    console.log(error);
 
+    toast.error(
+        error.response?.data?.msg || "Something went wrong"
+    );
+}
+}
   return (
     
     <div className='bg-white'> 
@@ -42,18 +63,18 @@ const Navbar = () => {
  <Popover>
   <PopoverTrigger asChild>
     <Avatar className='cursor-pointer'>
-  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarImage src={user?.profile?.profilePhoto} />
 </Avatar>
   </PopoverTrigger>
 
   <PopoverContent>
     <div className='flex gap-4 '>
     <Avatar className='cursor-pointer'>
-  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarImage src={user?.profile?.profilePhoto} />
 </Avatar>
 <div>
-<h4 className='font-medium'>Taran's Portal</h4>
-<p className='text-sm text-muted-foreground'>Lorem ipsum dolor sit amet.</p>
+<h4 className='font-medium'>{user?.fullName}</h4>
+<p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
 </div>
 </div>
 <div>
@@ -62,7 +83,7 @@ const Navbar = () => {
 </div>
 <div>
   <LogOut/>
-<Button className="focus-visible:ring-0 focus-visible:ring-offset-0" variant='link'>Logout</Button>
+<Button onClick={logOutHandler} className="focus-visible:ring-0 focus-visible:ring-offset-0" variant='link'>Logout</Button>
 </div>
   </PopoverContent>
 </Popover>

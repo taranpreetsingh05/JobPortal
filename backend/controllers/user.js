@@ -2,12 +2,17 @@ const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const getDataUri = require("../utils/datauri");
+const cloudinary = require("../utils/cloudinary");
 async function register(req, res) {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
     if (!fullName || !email || !phoneNumber || !password || !role) {
       return res.status(400).json({ msg: "Enter all details", success: false });
     }
+    const file=req.file;
+    const fileUri=getDataUri(file);
+    const cloudResponse=await cloudinary.uploader.upload(fileUri.content); 
     const user = await User.findOne({ email });
     if (user)
       return res.status(400).json({
@@ -21,6 +26,9 @@ async function register(req, res) {
       phoneNumber,
       password: hashedPassword,
       role,
+      profile:{
+        profilePhoto:cloudResponse.secure_url,
+      }
     });
     return res.status(201).json({
       msg: "account created successfully",
@@ -112,8 +120,16 @@ async function logout(req, res) {
 }
 async function updateProfile(req, res) {
   try {
+   
     const { fullName, email, phoneNumber, bio, skills } = req.body;
-    
+    const file=req.file;
+  
+    const fileUri=getDataUri(file);
+    const cloudresponse=await cloudinary.uploader.upload(fileUri.content, {
+    resource_type: "auto",
+    access_mode: "public"
+  });
+
     const userId = req.id; // this will come from middleware of authentication
     let user = await User.findById(userId);
     if (!user) {
@@ -129,6 +145,12 @@ if(bio) user.profile.bio = bio;
 if(skills){
     const skillsArray = skills.split(",");
     user.profile.skills = skillsArray;}
+
+    if(cloudresponse){
+      console.log(cloudresponse);
+      user.profile.resume=cloudresponse.secure_url;
+      user.profile.resumeOriginalName=file.originalname;
+    }
     await user.save();
     user = {
       _id: user._id,
@@ -140,8 +162,16 @@ if(skills){
     };
     return res.status(200).json({
         msg:"user updated successfully",
+        success:true,
         user
     })
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+        success: false,
+        msg: "Internal Server Error"
+    });
+  }
 }
 module.exports = { register, login, logout ,updateProfile};

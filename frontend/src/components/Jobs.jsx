@@ -18,7 +18,7 @@ const Jobs = () => {
             <div className="flex-1 h-[88vh] overflow-y-auto pb-5">
               <div className="grid grid-cols-3 gap-4">
                 {jobsArray.map((job, index) => {
-                  return <div>
+                  return <div key={index}>
                     <Job />
                   </div>
                   

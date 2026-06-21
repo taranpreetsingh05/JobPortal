@@ -50,7 +50,7 @@ const Signup = () => {
       });
       if(res.data.success){
         navigate("/login");
-        toast.success(res.data.message);
+        toast.success(res.data.msg);
       }
     } catch (error) {
     
@@ -58,7 +58,7 @@ const Signup = () => {
   console.log("RESPONSE:", error.response);
   console.log("DATA:", error.response?.data);
 
-  toast.error(error.response?.data?.message);
+  toast.error(error.response?.data?.msg);
 }
 
     
