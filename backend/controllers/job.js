@@ -67,7 +67,10 @@ async function getAllJobs(req,res){
 async function getJobById(req,res){
     try {
         const jobId=req.params.id;
-        const job=await Job.findById(jobId);
+        const job = await Job.findById(jobId).populate({
+    path: "applications",
+    options: { sort: { createdAt: -1 } }
+});
         if(!job){
             return res.status(404).json({
                 msg:"job not found",
