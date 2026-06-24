@@ -14,6 +14,7 @@ function Profile() {
   let isResume = true;
   const [open,setOpen]=useState(false);
   const {user}=useSelector(store=>store.auth);
+  console.log(user);
   return (
     <div>
       <Navbar />
@@ -22,7 +23,7 @@ function Profile() {
         <div className="flex justify-between">
           <div className="flex items-center gap-4">
             <Avatar className="h-24 w-24">
-              <AvatarImage src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=company&sf=&txt_keyword=All" />
+              <AvatarImage src={user?.profile?.profilePhoto} />
             </Avatar>
             <div>
               <h1 className="font-medium text-xl">{user?.fullName}</h1>

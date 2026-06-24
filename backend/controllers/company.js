@@ -18,11 +18,13 @@ if(company){
     })}
     company=await Company.create({
         name,
-        userId:req.id
+        userId:req.id,
+        
     });
 return res.status(201).json({
     msg:"company has been registered",
-    success:true
+    success:true,
+    company
 });
 
 
