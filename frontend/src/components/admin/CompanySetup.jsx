@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -8,6 +8,8 @@ import { COMPANY_API_END_POINT } from '../../utils/constant'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { useSelector } from 'react-redux'
+import GetCompanyById from '../../hooks/GetCompanyById'
 function CompanySetup() {
     const [input,setInput]=useState({
         name:"",
@@ -25,6 +27,7 @@ function CompanySetup() {
       const file=e.target.files?.[0];
       setInput({...input,file});
     }
+    const {singleCompany}=useSelector(store=>store.company);
     const params=useParams();
     const navigate=useNavigate();
     const submitHandler=async(e)=>{
@@ -56,6 +59,19 @@ function CompanySetup() {
         setLoading(false);
       }
     }
+  GetCompanyById(params.id);
+    useEffect( ()=>{
+      if(singleCompany){
+      setInput({
+         name:singleCompany?.name || "",
+        description:singleCompany?.description || "",
+        website:singleCompany?.website || "",
+        location:singleCompany?.location || "",
+        file: null
+
+      })
+    }
+    },[singleCompany]);
   return (
     <div>
       <Navbar></Navbar>
