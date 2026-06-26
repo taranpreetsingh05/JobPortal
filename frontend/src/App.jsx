@@ -3,7 +3,6 @@ import './App.css'
 import Home from './components/Home'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
-import Navbar from './components/shared/Navbar'
 import Jobs from './components/Jobs'
 import Browse from "./components/Browse"
 import Profile from './components/Profile'
@@ -11,6 +10,7 @@ import JobDescription from './components/JobDescription'
 import Companies from './components/admin/Companies'
 import CompanyCreate from './components/admin/CompanyCreate'
 import CompanySetup from './components/admin/CompanySetup'
+import AdminJobs from './components/admin/AdminJobs'
 const appRouter=createBrowserRouter([
   {path:"/",
   element:<Home/>},
@@ -47,6 +47,10 @@ const appRouter=createBrowserRouter([
   {
     path:"/admin/companies/:id",
     element:<CompanySetup/>
+  },
+  {
+    path:"/admin/Jobs",
+    element:<AdminJobs/>
   },
 
 ])
