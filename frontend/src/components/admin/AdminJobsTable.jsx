@@ -14,13 +14,12 @@ import { MoreHorizontal } from "lucide-react";
 import { Edit2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { Eye } from "lucide-react";
 function AdminJobsTable() {
   const navigate=useNavigate();
 const {allAdminJobs = [], searchJobByText} = useSelector(store => store.job);
 const [filterJobs, setFilterJobs] = useState([]);
-  console.log("allAdminJobs:", allAdminJobs);
-console.log("Is array?", Array.isArray(allAdminJobs)); 
+ 
   useEffect(()=>{
     const filteredJobs=allAdminJobs.length>=0 && allAdminJobs.filter((job)=>{
       if(!searchJobByText){return true};
@@ -66,6 +65,10 @@ console.log("Is array?", Array.isArray(allAdminJobs));
                         }} className="flex items-center gap-2 cursor-pointer">
                           <Edit2 className="w-4 h-4" />
                           <span>Edit</span>
+                        </div>
+                        <div onClick={()=>{navigate(`/admin/jobs/${job._id}/applicants`)}} className="flex items-center w-fit gap-2 cursor-pointer mt-2">
+                          <Eye className="w-4"></Eye>
+                          <span>Applicants</span>
                         </div>
                       </PopoverContent>
                     </Popover>

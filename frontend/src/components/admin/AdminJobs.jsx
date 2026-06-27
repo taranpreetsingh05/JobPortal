@@ -20,8 +20,8 @@ useEffect(()=>{
       <div className='max-w-6xl flex justify-between mx-auto my-10'>
         <Input className="w-fit" onChange={(e)=>{
           setInput(e.target.value); 
-        }} placeholder="filter by name"/>
-        <Button onClick={()=>{navigate("/admin/companies/create")}}>New Jobs</Button>
+        }} placeholder="filter by name,role"/>
+        <Button onClick={()=>{navigate("/admin/jobs/create")}}>New Jobs</Button>
       </div>
       <div>
         <AdminJobsTable></AdminJobsTable>

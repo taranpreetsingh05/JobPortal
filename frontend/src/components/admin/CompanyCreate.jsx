@@ -23,15 +23,13 @@ function CompanyCreate() {
             });
             if(res?.data?.success){
                 dispatch(setSingleCompany(res.data.company));
-                console.log(res.data);
                 toast.success(res.data.msg);
                 const companyId=res?.data?.company?._id;
                 navigate(`/admin/companies/${companyId}`)
             }
         } catch (error) {
             console.log(error);
-            console.log("STATUS:", error.response?.status);
-            console.log("DATA:", error.response?.data);
+           
         }
     }
   return (
