@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Bookmark } from 'lucide-react'
 import { Avatar } from './ui/avatar'
 import { AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 function Job({job}) {
-  console.log(job);
   const navigate=useNavigate();
   const daysAgo=(mongodbTime)=>{
     const createdAt=new Date(mongodbTime);
@@ -14,6 +14,7 @@ function Job({job}) {
     const timeDiff=currentTime-createdAt;
     return Math.floor(timeDiff/(1000*24*60*60));
   }
+  
   return (
     
     <div className='border rounded-md border-gray-200 shadow-xl bg-white p-5 '>

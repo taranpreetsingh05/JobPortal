@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,8 @@ import { setLoading } from "../../redux/authSlice";
 import { Loader2 } from 'lucide-react';
 import axios from "axios";
 const Signup = () => {
+    const {user}=useSelector(store=>store.auth);
+  
   const [input, setInput] = useState({
     fullName: "",
     email: "",
@@ -67,6 +69,11 @@ const Signup = () => {
 
     }
   };
+  useEffect(()=>{
+      if(user){
+        navigate("/")
+      }
+    },[])
   return (
     <div>
       <Navbar />

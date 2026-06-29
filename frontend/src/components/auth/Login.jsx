@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Navbar from '../shared/Navbar';
 import { Input } from "@/components/ui/input"
@@ -15,6 +15,7 @@ import { setLoading, setUser } from "../../redux/authSlice";
 import { Loader2 } from 'lucide-react';
 
 const Login = () => {
+  const {user}=useSelector(store=>store.auth);
   const navigate = useNavigate();
  const [input,setInput]=useState({
     
@@ -57,6 +58,11 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   };
+  useEffect(()=>{
+    if(user){
+      navigate("/")
+    }
+  },[])
   
   return (
     <div>
