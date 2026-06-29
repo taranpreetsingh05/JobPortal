@@ -49,7 +49,15 @@ console.log(error);
 async function getAppliedJobs(req,res){
     try{
         const userId=req.id;
-        const application = await Application.find({applicant:userId}).sort({createdAt:-1}).populate({path:"job"});
+        const application = await Application.find({ applicant: userId })
+  .sort({ createdAt: -1 })
+  .populate({
+    path: "job",
+    populate: {
+      path: "company",
+      
+    }
+  });
 
     
     if(application.length === 0){

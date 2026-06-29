@@ -9,12 +9,12 @@ import { Label } from "./ui/label";
 import AplliedJobTable from "./AplliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import { useSelector } from "react-redux";
-import store from "../redux/store";
+import UseGetAppliedJobs from "../hooks/UseGetAppliedJobs";
 function Profile() {
+  UseGetAppliedJobs();
   let isResume = true;
   const [open,setOpen]=useState(false);
   const {user}=useSelector(store=>store.auth);
-  console.log(user);
   return (
     <div>
       <Navbar />
