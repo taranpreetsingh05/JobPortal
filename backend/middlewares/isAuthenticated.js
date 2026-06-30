@@ -20,6 +20,10 @@ async function isAuthenticated(req,res,next){
     }
     catch(error){
         console.log(error);
+        return res.status(401).json({
+                msg:"some error occured",
+                success:false
+            })
     }
 }
 module.exports={isAuthenticated};

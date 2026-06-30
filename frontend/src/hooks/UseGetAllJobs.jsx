@@ -19,7 +19,7 @@ function UseGetAllJobs() {
         }
     }
     fetchAllJobs();
-  },[])
+  },[searchedQuery, dispatch])
 }
 
 export default UseGetAllJobs

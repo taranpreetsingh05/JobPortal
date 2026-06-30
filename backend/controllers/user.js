@@ -12,7 +12,10 @@ async function register(req, res) {
     }
     const file=req.file;
     const fileUri=getDataUri(file);
-    const cloudResponse=await cloudinary.uploader.upload(fileUri.content); 
+    const cloudResponse=await cloudinary.uploader.upload(fileUri.content,{
+      resource_type: "auto",
+  access_mode: "public"
+    }); 
     const user = await User.findOne({ email });
     if (user)
       return res.status(400).json({
@@ -123,12 +126,14 @@ async function updateProfile(req, res) {
    
     const { fullName, email, phoneNumber, bio, skills } = req.body;
     const file=req.file;
-  
+    let cloudresponse;
+   if(file){
     const fileUri=getDataUri(file);
-    const cloudresponse=await cloudinary.uploader.upload(fileUri.content, {
+     cloudresponse=await cloudinary.uploader.upload(fileUri.content, {
     resource_type: "auto",
     access_mode: "public"
   });
+}
 
     const userId = req.id; // this will come from middleware of authentication
     let user = await User.findById(userId);
