@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const getDataUri = require("../utils/datauri");
 const cloudinary = require("../utils/cloudinary");
+    const isProduction = process.env.NODE_ENV === "production";
+
 async function register(req, res) {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
@@ -87,18 +89,20 @@ async function login(req, res) {
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
-    return res
-      .status(200)
-      .cookie("token", token, {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: "strict",
-      })
-      .json({
-        msg: `welcome back ${user.fullName}`,
-        success: true,
-        user,
-      });
+
+return res
+  .status(200)
+  .cookie("token", token, {
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+  })
+  .json({
+    msg: `welcome back ${user.fullName}`,
+    success: true,
+    user,
+  });
   } catch (error) {
     return res.status(500).json({
       msg: "internal server error",
@@ -109,10 +113,18 @@ async function login(req, res) {
 
 async function logout(req, res) {
   try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      msg: "logged out successfully",
-      success: true,
-    });
+    return res
+  .status(200)
+  .cookie("token", "", {
+    maxAge: 0,
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+  })
+  .json({
+    msg: "logged out successfully",
+    success: true,
+  });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
